@@ -2,6 +2,9 @@ package tree
 
 import "strconv"
 
+// https://leetcode.cn/problems/binary-tree-maximum-path-sum/solutions/815690/yi-pian-wen-zhang-jie-jue-suo-you-er-cha-kcb0/
+// 路径题汇总
+
 // 路径类题分为自顶向下和非自顶向下
 // 求从根节点到叶子节点的所有路径https://leetcode.cn/problems/binary-tree-paths/description/
 // 如果只有根节点，就直接返回根节点，否则，依次把左右子树的路径拼接到根节点上
@@ -55,5 +58,32 @@ func pathSum(root *TreeNode, targetSum int) [][]int {
 	for _, val := range rightVal {
 		res = append(res, append([]int{root.Val}, val...))
 	}
+	return res
+}
+
+// 路径总和，https://leetcode.cn/problems/path-sum-iii/
+// 不从根节点开始，双重递归，不从叶子结束，递归结束不需要判断左右为空，
+func PathSum(root *TreeNode, targetSum int) int {
+	if root == nil {
+		return 0
+	}
+	res := 0
+    // 先以根节点算一遍
+	res += HasPathSum(root, targetSum)
+    // 再以左右算一遍
+	res += PathSum(root.Left, targetSum)
+	res += PathSum(root.Right, targetSum)
+	return res
+}
+func HasPathSum(root *TreeNode, targetSum int) int {
+	res := 0
+	if root == nil {
+		return 0
+	}
+	if root.Val == targetSum {
+		res += 1
+	}
+	res += HasPathSum(root.Left, targetSum-root.Val)
+	res += HasPathSum(root.Right, targetSum-root.Val)
 	return res
 }
