@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
 func createTree(nodes []int) *TreeNode {
     if len(nodes) == 0 {
         return nil
@@ -31,6 +35,7 @@ func createTree(nodes []int) *TreeNode {
 func main() {
 	nodes := []int{0, 1, 2, 3, 4, 3, 4}
 	root := createTree(nodes)
+    smallestFromLeaf(root)
 }
 func smallestFromLeaf(root *TreeNode) string {
     res := make([]string, 0)

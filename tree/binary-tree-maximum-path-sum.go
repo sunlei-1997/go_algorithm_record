@@ -87,3 +87,30 @@ func HasPathSum(root *TreeNode, targetSum int) int {
 	res += HasPathSum(root.Right, targetSum-root.Val)
 	return res
 }
+// https://leetcode.cn/problems/smallest-string-starting-from-leaf/description/
+// go传入切片引用可以直接修改元素，但是用append不行使因为它扩容了指针地址变了
+// 或者直接传入切片指针
+func smallestFromLeaf(root *TreeNode) string {
+    res := make([]string, 0)
+    dfs(root, "", &res)
+    sort.Strings(res)
+    return res[0]
+}
+func dfs(root *TreeNode, s string, res *[]string){
+    if root == nil{
+        return
+    }
+	s = string('a' + root.Val) + s
+    if root.Left == nil && root.Right == nil{
+        *res = append(*res, s)
+        return 
+    }
+    dfs(root.Left, s, res)
+    dfs(root.Right, s, res)
+}
+func reverse(s string) (res string){
+    for _, c := range s{
+        res = string(c) + res
+    }
+    return res
+}
